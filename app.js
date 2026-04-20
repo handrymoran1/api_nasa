@@ -20,7 +20,7 @@ function cargarFoto(fecha = "") {
         .then(datos => {
             datosActuales = datos;
             
-            // Si es video usamos iframe, si es imagen usamos img
+            // es imagen usamos img
             let contenidoMedia = "";
             if (datos.media_type === "image") {
                 contenidoMedia = "<img src='" + datos.url + "' class='img-fluid'>";
@@ -28,7 +28,6 @@ function cargarFoto(fecha = "") {
                 contenidoMedia = "<div class='ratio ratio-16x9'><iframe src='" + datos.url + "'></iframe></div>";
             }
 
-            // Mostramos todo en el HTML
             contenedor.innerHTML = `
                 <h2>${datos.title}</h2>
                 <p class='text-muted'>${datos.date}</p>
@@ -40,9 +39,7 @@ function cargarFoto(fecha = "") {
             contenedor.innerHTML = "<p class='text-danger'>Error al cargar los datos.</p>";
         });
 }
-
 function mostrarFavoritos() {
-    // Obtenemos lo que haya en memoria o una lista vacía si no hay nada
     let favoritos = JSON.parse(localStorage.getItem("mis_fotos_nasa")) || [];
     
     listaFavoritos.innerHTML = "";
@@ -67,7 +64,7 @@ btnFavorito.onclick = function() {
         if (yaExiste) {
             alert("Ya tienes esta foto en tus favoritos.");
         } else {
-            // Agregamos el nuevo favorito a la lista
+            // Agregar a favoritos 
             favoritos.push({
                 titulo: datosActuales.title,
                 fecha: datosActuales.date
@@ -80,7 +77,7 @@ btnFavorito.onclick = function() {
 
 window.borrarFavorito = function(posicion) {
     let favoritos = JSON.parse(localStorage.getItem("mis_fotos_nasa")) || [];
-    favoritos.splice(posicion, 1); // Quitar el elemento de esa posición
+    favoritos.splice(posicion, 1); // Quitar de favoritos (la posición)
     localStorage.setItem("mis_fotos_nasa", JSON.stringify(favoritos));
     mostrarFavoritos();
 };
